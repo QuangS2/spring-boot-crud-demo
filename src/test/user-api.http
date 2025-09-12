@@ -1,0 +1,37 @@
+### CREATE USER 1
+POST http://localhost:8080/users
+Content-type: appication/json
+
+{
+    "id":1,
+    "name":"Quang",
+    "age":27
+}
+### CREATE USER 2
+POST http://localhost:8080/users
+Content-type: appication/json
+
+{
+    "id":2,
+    "name":"Hoa",
+    "age":25
+}
+
+### GET ALL USERS
+GET http://localhost:8080/users
+### GET ALL USERS BY ID
+GET http://localhost:8080/users/1
+### GET ALL USERS BY ID
+GET http://localhost:8080/users/2
+
+### UPDATE USER
+PUT http://localhost:8080/users/2
+Content-Type: application/json
+
+{
+  "name": "Hoa Updated",
+  "age": 26
+}
+
+### DELETE USER
+DELETE http://localhost:8080/users/1
