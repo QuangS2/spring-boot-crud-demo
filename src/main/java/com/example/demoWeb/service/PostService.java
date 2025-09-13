@@ -2,6 +2,7 @@ package com.example.demoWeb.service;
 
 import com.example.demoWeb.dto.PostRequest;
 import com.example.demoWeb.dto.PostResponse;
+import com.example.demoWeb.exception.UserNotFoundException;
 import com.example.demoWeb.model.Post;
 import com.example.demoWeb.model.User;
 import com.example.demoWeb.repository.PostRepository;
@@ -32,7 +33,7 @@ public class PostService {
 
     public PostResponse create(PostRequest request) {
         User user = userRepository.findById(request.getUserId())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException(request.getUserId()));
         Post post = Post.builder()
                 .title(request.getTitle())
                 .content(request.getContent())

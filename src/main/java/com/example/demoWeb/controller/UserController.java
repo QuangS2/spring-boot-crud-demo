@@ -6,6 +6,7 @@ import com.example.demoWeb.dto.UserUpdateRequest;
 import com.example.demoWeb.exception.UserNotFoundException;
 import com.example.demoWeb.service.UserService;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,14 +15,12 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/users") // endpoint gốc
+@RequiredArgsConstructor
 public class UserController {
 
 
     private final UserService userService;
 
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
 
     //    CREATE
     @PostMapping

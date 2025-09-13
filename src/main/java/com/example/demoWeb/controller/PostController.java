@@ -4,6 +4,7 @@ import com.example.demoWeb.dto.PostRequest;
 import com.example.demoWeb.dto.PostResponse;
 import com.example.demoWeb.model.Post;
 import com.example.demoWeb.service.PostService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +26,7 @@ public class PostController {
     }
 
     @PostMapping
-    public ResponseEntity<PostResponse> create(@RequestBody PostRequest request) {
+    public ResponseEntity<PostResponse> create(@Valid @RequestBody PostRequest request) {
         PostResponse response = postService.create(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }

@@ -17,5 +17,6 @@ public class PostRequest {
     @Size(min = 10, message = "Content must be at least 10 characters")
     private String content;
 
+    @NotBlank(message = "user id cannot be blank")
     private Long userId;
 }
