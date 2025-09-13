@@ -3,6 +3,7 @@ package com.example.demoWeb.service;
 import com.example.demoWeb.dto.UserResponse;
 import com.example.demoWeb.dto.UserCreateRequest;
 import com.example.demoWeb.dto.UserUpdateRequest;
+import com.example.demoWeb.exception.UserNotFoundException;
 import com.example.demoWeb.model.User;
 import com.example.demoWeb.repository.UserRepository;
 import org.springframework.stereotype.Service;
@@ -52,11 +53,10 @@ public class UserService {
                 });
     }
 
-    public boolean deleteUser(Long id) {
-        if (userRepository.existsById(id)) {
-            userRepository.deleteById(id);
-            return true;
-        }
-        return false;
+    public void deleteUser(Long id) {
+
+        if (!userRepository.existsById(id))
+            throw new UserNotFoundException(id);
+        userRepository.deleteById(id);
     }
 }
