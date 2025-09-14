@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/users") // endpoint gốc
+@RequestMapping("/api/users") // endpoint gốc
 @RequiredArgsConstructor
 public class UserController {
 
@@ -61,5 +61,17 @@ public class UserController {
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
         return ResponseEntity.noContent().build();
+    }
+    //USER - ASSIGN - ROLE
+
+    @PostMapping("/{userId}/roles/{roleName}")
+    public ResponseEntity<UserResponse> assignRole(@PathVariable Long userId, @PathVariable String roleName) {
+        return ResponseEntity.ok(userService.assignRole(userId, roleName));
+    }
+
+    //USER REMOVE ROLE
+    @DeleteMapping("/{userId}/roles/{roleName}")
+    public ResponseEntity<UserResponse> removeRoleFromUser(@PathVariable Long userId, @PathVariable String roleName) {
+        return ResponseEntity.ok(userService.removeRoleFromUser(userId, roleName));
     }
 }

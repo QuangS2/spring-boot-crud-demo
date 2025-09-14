@@ -5,21 +5,23 @@ import com.example.demoWeb.dto.UserCreateRequest;
 import com.example.demoWeb.dto.UserUpdateRequest;
 import com.example.demoWeb.exception.UserNotFoundException;
 import com.example.demoWeb.mapper.UserMapper;
+import com.example.demoWeb.model.Role;
 import com.example.demoWeb.model.User;
+import com.example.demoWeb.repository.RolesRepository;
 import com.example.demoWeb.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
-
+    private final RolesRepository rolesRepository;
 
     public List<UserResponse> getAllUsers() {
         return userMapper.toResponseList(userRepository.findAll());
@@ -33,7 +35,7 @@ public class UserService {
     public UserResponse createUser(UserCreateRequest request) {
 
         User user = userMapper.createToEntity(request);
-        
+
         User saved = userRepository.save(user);
 
         return userMapper.toResponse(saved);
@@ -53,5 +55,29 @@ public class UserService {
         if (!userRepository.existsById(id))
             throw new UserNotFoundException(id);
         userRepository.deleteById(id);
+    }
+
+    //USER - ASSIGN - ROLE
+    public UserResponse assignRole(Long userId, String roleName) {
+        roleName = roleName.toLowerCase();
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException(userId));
+        Role role = rolesRepository.findByName(roleName)
+                .orElseThrow(() -> new RuntimeException("Role not found"));
+        user.getRoles().add(role);
+        User saved = userRepository.save(user);
+        return userMapper.toResponse(saved);
+    }
+
+    //USER REMOVE ROLE
+    @Transactional
+    public UserResponse removeRoleFromUser(Long userId, String roleName) {
+        roleName = roleName.toLowerCase();
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException(userId));
+        Role role = rolesRepository.findByName(roleName)
+                .orElseThrow(() -> new RuntimeException("Role not found"));
+        user.getRoles().remove(role);
+        return userMapper.toResponse(userRepository.save(user));
     }
 }
