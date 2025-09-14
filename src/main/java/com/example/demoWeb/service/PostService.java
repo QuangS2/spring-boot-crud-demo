@@ -3,6 +3,7 @@ package com.example.demoWeb.service;
 import com.example.demoWeb.dto.PostRequest;
 import com.example.demoWeb.dto.PostResponse;
 import com.example.demoWeb.exception.UserNotFoundException;
+import com.example.demoWeb.mapper.PostMapper;
 import com.example.demoWeb.model.Post;
 import com.example.demoWeb.model.User;
 import com.example.demoWeb.repository.PostRepository;
@@ -19,33 +20,20 @@ import java.util.stream.Collectors;
 public class PostService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
+    private final PostMapper postMapper;
 
     public List<PostResponse> getAll() {
-        return postRepository.findAll()
-                .stream()
-                .map(post -> PostResponse.builder()
-                        .id(post.getId())
-                        .title(post.getTitle())
-                        .content(post.getContent())
-                        .username(post.getUser().getName())
-                        .build()).collect(Collectors.toList());
+        return postMapper.toResponseList(postRepository.findAll());
     }
 
     public PostResponse create(PostRequest request) {
         User user = userRepository.findById(request.getUserId())
                 .orElseThrow(() -> new UserNotFoundException(request.getUserId()));
-        Post post = Post.builder()
-                .title(request.getTitle())
-                .content(request.getContent())
-                .user(user)
-                .build();
+        Post post = postMapper.toEntity(request);
+        post.setUser(user);
+        
         Post saved = postRepository.save(post);
-        return PostResponse.builder()
-                .id(saved.getId())
-                .title(saved.getTitle())
-                .content(saved.getContent())
-                .username(saved.getUser().getName())
-                .build();
+        return postMapper.toResponse(saved);
     }
 
     public void delete(Long id) {

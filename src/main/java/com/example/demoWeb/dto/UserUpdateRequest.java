@@ -13,6 +13,4 @@ public class UserUpdateRequest {
     @Min(value = 0, message = "Age must be >= 0")
     @Max(value = 120, message = "Age must be <= 120")
     private int age;
-
-    private String password;
 }

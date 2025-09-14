@@ -1,6 +1,7 @@
 package com.example.demoWeb.dto;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
@@ -17,6 +18,6 @@ public class PostRequest {
     @Size(min = 10, message = "Content must be at least 10 characters")
     private String content;
 
-    @NotBlank(message = "user id cannot be blank")
+    @NotNull(message = "user id cannot be Null")
     private Long userId;
 }
