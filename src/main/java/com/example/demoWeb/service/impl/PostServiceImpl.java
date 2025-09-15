@@ -2,6 +2,7 @@ package com.example.demoWeb.service.impl;
 
 import com.example.demoWeb.dto.request.PostRequest;
 import com.example.demoWeb.dto.response.PostResponse;
+import com.example.demoWeb.exception.ResourceNotFoundException;
 import com.example.demoWeb.exception.UserNotFoundException;
 import com.example.demoWeb.mapper.PostMapper;
 import com.example.demoWeb.model.Post;
@@ -37,7 +38,7 @@ public class PostServiceImpl implements PostService {
 
     public void delete(Long id) {
         if (!postRepository.existsById(id))
-            throw new RuntimeException("Post not found with id " + id);
+            throw new ResourceNotFoundException("Post not found with id " + id);
         postRepository.deleteById(id);
     }
 }

@@ -3,6 +3,7 @@ package com.example.demoWeb.service.impl;
 import com.example.demoWeb.dto.response.UserResponse;
 import com.example.demoWeb.dto.request.UserCreateRequest;
 import com.example.demoWeb.dto.request.UserUpdateRequest;
+import com.example.demoWeb.exception.ResourceNotFoundException;
 import com.example.demoWeb.exception.UserNotFoundException;
 import com.example.demoWeb.mapper.UserMapper;
 import com.example.demoWeb.model.Role;
@@ -70,7 +71,7 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException(userId));
         Role role = rolesRepository.findByNameIgnoreCase(roleName)
-                .orElseThrow(() -> new RuntimeException("Role not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Role not found"));
         user.getRoles().add(role);
 
         User saved = userRepository.save(user);
@@ -84,7 +85,7 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException(userId));
         Role role = rolesRepository.findByNameIgnoreCase(roleName)
-                .orElseThrow(() -> new RuntimeException("Role not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Role not found"));
         user.getRoles().remove(role);
         return userMapper.toResponse(userRepository.save(user));
     }

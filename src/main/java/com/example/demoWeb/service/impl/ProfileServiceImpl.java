@@ -4,6 +4,8 @@ import com.example.demoWeb.dto.request.ProfileCreateRequest;
 import com.example.demoWeb.dto.response.ProfileResponse;
 import com.example.demoWeb.dto.request.ProfileUpdateRequest;
 
+import com.example.demoWeb.exception.DuplicateResourceException;
+import com.example.demoWeb.exception.ResourceNotFoundException;
 import com.example.demoWeb.exception.UserNotFoundException;
 import com.example.demoWeb.mapper.ProfileMapper;
 import com.example.demoWeb.model.User;
@@ -27,7 +29,7 @@ public class ProfileServiceImpl implements ProfileService {
     public ProfileResponse create(ProfileCreateRequest request) {
         User user = userRepository.findById(request.getUserId())
                 .orElseThrow(() -> new UserNotFoundException(request.getUserId()));
-        if (user.getProfile() != null) throw new RuntimeException("This User has profile already");
+        if (user.getProfile() != null) throw new DuplicateResourceException("This User has profile already");
 
         Profile profile = profileMapper.createToEntity(request);
         profile.setUser(user);
@@ -41,7 +43,7 @@ public class ProfileServiceImpl implements ProfileService {
     public ProfileResponse getById(Long id) {
 
         Profile profile = profileRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Profile not found with id " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Profile not found with id " + id));
         return profileMapper.toResponse(profile);
     }
 
@@ -55,7 +57,7 @@ public class ProfileServiceImpl implements ProfileService {
     //UPDATE BY ID
     public ProfileResponse updateById(Long id, ProfileUpdateRequest request) {
         Profile profile = profileRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Profile not found with id " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Profile not found with id " + id));
         profileMapper.updateToEntity(request, profile);
         Profile saved = profileRepository.save(profile);
         return profileMapper.toResponse(saved);
@@ -72,7 +74,7 @@ public class ProfileServiceImpl implements ProfileService {
     public void deleteProfile(Long id) {
 
         Profile profile = profileRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Profile not found with id " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Profile not found with id " + id));
 
         User user = profile.getUser();
         if (user != null) {

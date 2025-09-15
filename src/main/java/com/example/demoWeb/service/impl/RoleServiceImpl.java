@@ -3,6 +3,7 @@ package com.example.demoWeb.service.impl;
 import com.example.demoWeb.dto.request.RoleRequest;
 import com.example.demoWeb.dto.response.RoleResponse;
 
+import com.example.demoWeb.exception.DuplicateResourceException;
 import com.example.demoWeb.mapper.RoleMapper;
 
 import com.example.demoWeb.model.Role;
@@ -33,7 +34,7 @@ public class RoleServiceImpl implements RoleService {
 
         rolesRepository.findByNameIgnoreCase(request.getName())
                 .ifPresent(role -> {
-                    throw new RuntimeException("Role name already exists " + request.getName());
+                    throw new DuplicateResourceException("Role name already exists " + request.getName());
                 });
 
         Role role = roleMapper.createToEntity(request);
@@ -45,9 +46,9 @@ public class RoleServiceImpl implements RoleService {
     public Optional<RoleResponse> update(Long id, RoleRequest request) {
         rolesRepository.findByNameIgnoreCase(request.getName())
                 .ifPresent(role -> {
-                    throw new RuntimeException("Role name already exists " + request.getName());
+                    throw new DuplicateResourceException("Role name already exists " + request.getName());
                 });
-        
+
         return rolesRepository.findById(id)
                 .map(role -> {
                     roleMapper.updateToEntity(request, role);
