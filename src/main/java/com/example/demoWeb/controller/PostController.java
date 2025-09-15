@@ -1,9 +1,10 @@
 package com.example.demoWeb.controller;
 
-import com.example.demoWeb.dto.PostRequest;
-import com.example.demoWeb.dto.PostResponse;
-import com.example.demoWeb.model.Post;
+import com.example.demoWeb.dto.request.PostRequest;
+import com.example.demoWeb.dto.response.PostResponse;
+
 import com.example.demoWeb.service.PostService;
+import com.example.demoWeb.service.impl.PostServiceImpl;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

@@ -1,8 +1,8 @@
 package com.example.demoWeb.mapper;
 
-import com.example.demoWeb.dto.UserCreateRequest;
-import com.example.demoWeb.dto.UserResponse;
-import com.example.demoWeb.dto.UserUpdateRequest;
+import com.example.demoWeb.dto.request.UserCreateRequest;
+import com.example.demoWeb.dto.response.UserResponse;
+import com.example.demoWeb.dto.request.UserUpdateRequest;
 import com.example.demoWeb.model.Role;
 import com.example.demoWeb.model.User;
 import org.mapstruct.Mapper;

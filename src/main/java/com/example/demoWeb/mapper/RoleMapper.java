@@ -1,10 +1,9 @@
 package com.example.demoWeb.mapper;
 
-import com.example.demoWeb.dto.RoleRequest;
-import com.example.demoWeb.dto.RoleResponse;
+import com.example.demoWeb.dto.request.RoleRequest;
+import com.example.demoWeb.dto.response.RoleResponse;
 import com.example.demoWeb.model.Role;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
 import java.util.List;

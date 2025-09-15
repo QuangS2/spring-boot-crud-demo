@@ -1,84 +1,19 @@
 package com.example.demoWeb.service;
 
-import com.example.demoWeb.dto.ProfileCreateRequest;
-import com.example.demoWeb.dto.ProfileResponse;
-import com.example.demoWeb.dto.ProfileUpdateRequest;
+import com.example.demoWeb.dto.request.ProfileCreateRequest;
+import com.example.demoWeb.dto.request.ProfileUpdateRequest;
+import com.example.demoWeb.dto.response.ProfileResponse;
 
-import com.example.demoWeb.exception.UserNotFoundException;
-import com.example.demoWeb.mapper.ProfileMapper;
-import com.example.demoWeb.model.User;
-import com.example.demoWeb.model.Profile;
-import com.example.demoWeb.repository.ProfileRepository;
-import com.example.demoWeb.repository.UserRepository;
+public interface ProfileService {
+    ProfileResponse create(ProfileCreateRequest request);
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+    ProfileResponse getById(Long id);
 
-@Service
-@RequiredArgsConstructor
-public class ProfileService {
-    private final ProfileRepository profileRepository;
+    ProfileResponse getByUserId(Long id);
 
-    private final UserRepository userRepository;
-    private final ProfileMapper profileMapper;
+    ProfileResponse updateById(Long id, ProfileUpdateRequest request);
 
-    //    CREAT
-    public ProfileResponse create(ProfileCreateRequest request) {
-        User user = userRepository.findById(request.getUserId())
-                .orElseThrow(() -> new UserNotFoundException(request.getUserId()));
-        if (user.getProfile() != null) throw new RuntimeException("This User has profile already");
+    ProfileResponse updateByUserId(Long id, ProfileUpdateRequest request);
 
-        Profile profile = profileMapper.createToEntity(request);
-        profile.setUser(user);
-        
-        Profile saved = profileRepository.save(profile);
-
-        return profileMapper.toResponse(saved);
-    }
-
-    //    GET BY ID
-    public ProfileResponse getById(Long id) {
-
-        Profile profile = profileRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Profile not found with id " + id));
-        return profileMapper.toResponse(profile);
-    }
-
-    //    GET BY USER ID
-    public ProfileResponse getByUserId(Long id) {
-        User user = userRepository.findById(id)
-                .orElseThrow(() -> new UserNotFoundException(id));
-        return getById(user.getProfile().getId());
-    }
-
-    //UPDATE BY ID
-    public ProfileResponse updateById(Long id, ProfileUpdateRequest request) {
-        Profile profile = profileRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Profile not found with id " + id));
-        profileMapper.updateToEntity(request, profile);
-        Profile saved = profileRepository.save(profile);
-        return profileMapper.toResponse(saved);
-    }
-
-    //UPDATE BY USER ID
-    public ProfileResponse updateByUserId(Long id, ProfileUpdateRequest request) {
-        User user = userRepository.findById(id)
-                .orElseThrow(() -> new UserNotFoundException(id));
-        return updateById(user.getProfile().getId(), request);
-    }
-
-    //DELETE
-    public void deleteProfile(Long id) {
-
-        Profile profile = profileRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Profile not found with id " + id));
-
-        User user = profile.getUser();
-        if (user != null) {
-            user.setProfile(null); // gỡ ràng buộc
-            userRepository.save(user);
-        }
-        profileRepository.deleteById(id);
-    }
+    void deleteProfile(Long id);
 }
-

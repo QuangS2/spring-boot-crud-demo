@@ -1,7 +1,7 @@
 package com.example.demoWeb.controller;
 
-import com.example.demoWeb.dto.RoleRequest;
-import com.example.demoWeb.dto.RoleResponse;
+import com.example.demoWeb.dto.request.RoleRequest;
+import com.example.demoWeb.dto.response.RoleResponse;
 import com.example.demoWeb.service.RoleService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

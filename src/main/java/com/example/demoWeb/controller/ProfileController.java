@@ -1,8 +1,8 @@
 package com.example.demoWeb.controller;
 
-import com.example.demoWeb.dto.ProfileCreateRequest;
-import com.example.demoWeb.dto.ProfileResponse;
-import com.example.demoWeb.dto.ProfileUpdateRequest;
+import com.example.demoWeb.dto.request.ProfileCreateRequest;
+import com.example.demoWeb.dto.response.ProfileResponse;
+import com.example.demoWeb.dto.request.ProfileUpdateRequest;
 import com.example.demoWeb.service.ProfileService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

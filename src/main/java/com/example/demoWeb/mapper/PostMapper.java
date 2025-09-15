@@ -1,7 +1,7 @@
 package com.example.demoWeb.mapper;
 
-import com.example.demoWeb.dto.PostRequest;
-import com.example.demoWeb.dto.PostResponse;
+import com.example.demoWeb.dto.request.PostRequest;
+import com.example.demoWeb.dto.response.PostResponse;
 import com.example.demoWeb.model.Post;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
