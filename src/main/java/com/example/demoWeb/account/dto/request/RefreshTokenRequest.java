@@ -1,0 +1,14 @@
+package com.example.demoWeb.account.dto.request;
+
+import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class RefreshTokenRequest {
+    @NotBlank(message = "Refresh Token can be blank")
+    private String refreshToken;
+}
