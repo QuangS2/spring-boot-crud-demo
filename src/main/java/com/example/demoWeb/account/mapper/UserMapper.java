@@ -8,6 +8,7 @@ import com.example.demoWeb.account.model.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
+import org.springframework.data.domain.Page;
 
 
 import java.util.List;
@@ -23,8 +24,9 @@ public interface UserMapper {
 
     List<UserResponse> toResponseList(List<User> userList);
 
+
     void updateToEntity(UserUpdateRequest updateRequest, @MappingTarget User user);
-    
+
 
     User createToEntity(UserRegisterRequest createRequest);
 

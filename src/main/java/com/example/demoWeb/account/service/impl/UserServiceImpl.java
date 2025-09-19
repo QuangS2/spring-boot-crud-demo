@@ -15,6 +15,8 @@ import com.example.demoWeb.profile.model.Profile;
 import com.example.demoWeb.profile.repository.ProfileRepository;
 import com.example.demoWeb.profile.service.ProfileService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.parameters.P;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -32,8 +34,9 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
     private final ProfileRepository profileRepository;
 
-    public List<UserResponse> getAllUsers() {
-        return userMapper.toResponseList(userRepository.findAll());
+    public Page<UserResponse> getUsers(String name, Pageable pageable) {
+        Page<User> userPage = userRepository.findByNameContainingIgnoreCase(name, pageable);
+        return userPage.map(userMapper::toResponse);
     }
 
     public Optional<UserResponse> getUserById(Long id) {

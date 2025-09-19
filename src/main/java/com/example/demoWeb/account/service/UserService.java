@@ -3,12 +3,14 @@ package com.example.demoWeb.account.service;
 import com.example.demoWeb.account.dto.request.UserRegisterRequest;
 import com.example.demoWeb.account.dto.request.UserUpdateRequest;
 import com.example.demoWeb.account.dto.response.UserResponse;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface UserService {
-    List<UserResponse> getAllUsers();
+    Page<UserResponse> getUsers(String name, Pageable pageable);
 
     Optional<UserResponse> getUserById(Long id);
 
