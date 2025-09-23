@@ -39,6 +39,7 @@ A backend project built with **Spring Boot**, demonstrating:
 
 ## Project Structure
 
+```text
 com.example.demoWeb
 │
 ├── account
@@ -77,7 +78,7 @@ com.example.demoWeb
 ├── exception # GlobalExceptionHandler, custom exception
 ├── security # JWT utils, filter, authentication manager
 └── DemoWebApplication # Main application
-
+```
 
 ---
 
@@ -105,15 +106,15 @@ spring.h2.console.enabled=true
 jwt.secret=your-256-bit-secret
 jwt.expiration=3600000
 
-# Build
+## Build
 
 mvn clean install
 
-# Run
+## Run
 
 mvn spring-boot:run
 
-#API Endpoints
+## API Endpoints
 
 Auth (/api/auth)
 
